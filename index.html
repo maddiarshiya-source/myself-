@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>A Special Surprise For You! ✨</title>
+  <title>Unknown Message Received... 🔍</title>
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Courier New', Courier, monospace;
     }
 
     body {
-      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+      background-color: #0d0e15;
+      color: #fff;
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -22,142 +23,210 @@
       padding: 20px;
     }
 
-    .container {
+    .card {
+      background: #161925;
+      border: 2px solid #ff2a6d;
+      box-shadow: 0 0 25px rgba(255, 42, 109, 0.3);
+      padding: 35px 25px;
+      border-radius: 20px;
       text-align: center;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 40px 30px;
-      border-radius: 24px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-      max-width: 450px;
+      max-width: 420px;
       width: 100%;
       position: relative;
       z-index: 10;
-      transition: all 0.5s ease;
     }
 
-    h1 {
-      color: #ff4757;
-      font-size: 1.8rem;
+    .glitch-title {
+      font-size: 1.5rem;
+      color: #05d9e8;
+      text-shadow: 0 0 8px #05d9e8;
       margin-bottom: 15px;
     }
 
-    p {
-      color: #57606f;
+    .sub-text {
+      color: #a6a6a6;
+      font-size: 0.95rem;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    /* Scanner Circle */
+    .scanner-box {
+      width: 110px;
+      height: 110px;
+      margin: 0 auto 25px auto;
+      border-radius: 50%;
+      border: 3px dashed #ff2a6d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2.5rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255, 42, 109, 0.2);
+      transition: all 0.3s ease;
+      animation: spin 8s linear infinite;
+    }
+
+    .scanner-box:hover {
+      transform: scale(1.08);
+      border-color: #05d9e8;
+      box-shadow: 0 0 25px rgba(5, 217, 232, 0.5);
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      width: 100%;
+      background: #0d0e15;
+      border-radius: 10px;
+      height: 12px;
+      margin-top: 15px;
+      overflow: hidden;
+      display: none;
+      border: 1px solid #05d9e8;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #ff2a6d, #05d9e8);
+      transition: width 0.1s linear;
+    }
+
+    /* Secret Revealed Area */
+    #surpriseArea {
+      display: none;
+      animation: flashIn 1s ease forwards;
+    }
+
+    .secret-title {
+      color: #ff2a6d;
+      font-size: 1.8rem;
+      font-family: 'Segoe UI', sans-serif;
+      text-shadow: 0 0 12px rgba(255, 42, 109, 0.6);
+      margin-bottom: 15px;
+    }
+
+    .secret-message {
+      font-family: 'Segoe UI', sans-serif;
+      color: #e0e0e0;
       font-size: 1.1rem;
       line-height: 1.6;
       margin-bottom: 25px;
     }
 
-    .btn {
-      background: linear-gradient(45deg, #ff4757, #ff6b81);
-      color: white;
-      border: none;
-      padding: 14px 28px;
-      font-size: 1rem;
+    .btn-share {
+      background: #05d9e8;
+      color: #0d0e15;
+      font-family: 'Segoe UI', sans-serif;
       font-weight: bold;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1rem;
       border-radius: 50px;
       cursor: pointer;
-      box-shadow: 0 8px 20px rgba(255, 71, 87, 0.4);
-      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 15px rgba(5, 217, 232, 0.4);
+      transition: transform 0.2s;
     }
 
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 24px rgba(255, 71, 87, 0.5);
+    .btn-share:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(5, 217, 232, 0.7);
     }
 
-    .btn:active {
-      transform: translateY(0);
-    }
-
-    #surpriseContent {
-      display: none;
-      animation: fadeIn 1s ease forwards;
-    }
-
-    .share-btn {
-      background: #2ed573;
-      box-shadow: 0 8px 20px rgba(46, 213, 115, 0.4);
-      margin-top: 15px;
-    }
-
-    .share-btn:hover {
-      box-shadow: 0 12px 24px rgba(46, 213, 115, 0.5);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: 1;
+    @keyframes flashIn {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
 
-  <canvas id="confetti"></canvas>
+  <div class="card">
+    <!-- State 1: Locked Mystery -->
+    <div id="lockArea">
+      <div class="glitch-title">⚠️ ENCRYPTED MESSAGE</div>
+      <p class="sub-text">An unexpected incoming wish detected. Tap the orb below to decrypt the secret.</p>
+      
+      <div class="scanner-box" id="orb" onclick="startDecrypt()">
+        🔮
+      </div>
 
-  <div class="container">
-    <!-- Initial State -->
-    <div id="initialState">
-      <h1>🎁 You've Received a Special Wish!</h1>
-      <p>Someone sent you a magical surprise. Tap the button below to open it!</p>
-      <button class="btn" onclick="revealSurprise()">✨ Tap to Open ✨</button>
+      <div class="progress-container" id="progressBox">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div id="statusText" style="margin-top: 10px; font-size: 0.8rem; color: #05d9e8;"></div>
     </div>
 
-    <!-- Hidden Surprise Content -->
-    <div id="surpriseContent">
-      <h1>✨ 🎉 Warmest Wishes! 🎉 ✨</h1>
-      <p>
-        May your day be filled with endless joy, smiles, and unforgettable moments! 
-        You are truly extraordinary—never forget how amazing you are! ❤️
+    <!-- State 2: Unexpected Surprise Message -->
+    <div id="surpriseArea">
+      <div class="secret-title">✨ DECRYPTION COMPLETE! ✨</div>
+      <p class="secret-message">
+        Out of billions of people in the world, this special message found its way to you! 🌟<br><br>
+        You bring light and magic wherever you go. Never forget how truly incredible you are! 💖
       </p>
-      <button class="btn share-btn" onclick="sharePage()">🔗 Share This Wish</button>
+      <button class="btn-share" onclick="shareSecret()">🚀 Send This Mystery To A Friend</button>
     </div>
   </div>
 
-  <!-- Canvas Confetti Library -->
+  <!-- Confetti Engine -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
-    function revealSurprise() {
-      // Hide initial state and show surprise
-      document.getElementById('initialState').style.display = 'none';
-      document.getElementById('surpriseContent').style.display = 'block';
+    function startDecrypt() {
+      const orb = document.getElementById('orb');
+      const progressBox = document.getElementById('progressBox');
+      const progressBar = document.getElementById('progressBar');
+      const statusText = document.getElementById('statusText');
 
-      // Launch Confetti Explosion
-      var count = 200;
-      var defaults = { origin: { y: 0.7 } };
+      orb.style.pointerEvents = 'none';
+      progressBox.style.display = 'block';
 
-      function fire(particleRatio, opts) {
-        confetti(Object.assign({}, defaults, opts, {
-          particleCount: Math.floor(count * particleRatio)
-        }));
-      }
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 4;
+        progressBar.style.width = progress + '%';
+        
+        if(progress < 40) {
+          statusText.innerText = "Bypassing security locks...";
+        } else if(progress < 80) {
+          statusText.innerText = "Unlocking secret wishes...";
+        } else {
+          statusText.innerText = "Preparing surprise...";
+        }
 
-      fire(0.25, { spread: 26, startVelocity: 55 });
-      fire(0.2, { spread: 60 });
-      fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
-      fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
-      fire(0.1, { spread: 120, startVelocity: 45 });
+        if (progress >= 100) {
+          clearInterval(interval);
+          revealSurprise();
+        }
+      }, 50);
     }
 
-    function sharePage() {
+    function revealSurprise() {
+      document.getElementById('lockArea').style.display = 'none';
+      document.getElementById('surpriseArea').style.display = 'block';
+
+      // Neon Explosion Particle Effect
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#ff2a6d', '#05d9e8', '#ffb86c', '#f1fa8c']
+      });
+    }
+
+    function shareSecret() {
       if (navigator.share) {
         navigator.share({
-          title: 'A Special Wish For You! ✨',
-          text: 'Someone sent you a magical surprise! Open it here:',
+          title: 'Encrypted Message Received! 🔮',
+          text: 'You have an encrypted secret message waiting for you! Tap to decrypt:',
           url: window.location.href,
         }).catch(console.error);
       } else {
-        // Fallback: Copy link to clipboard
         navigator.clipboard.writeText(window.location.href);
-        alert('Link copied to clipboard! You can send it to anyone now. 🚀');
+        alert('Secret Link copied to clipboard! Send it to anyone now 🚀');
       }
     }
   </script>
